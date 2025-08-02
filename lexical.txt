@@ -1,0 +1,53 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+
+using namespace std;
+
+int main() {
+    string input;
+    cout << "Enter a line of code: ";
+    getline(cin, input);
+
+    for (int i = 0; i < input.length(); i++) {
+        char ch = input[i];
+
+        // Skip spaces
+        if (isspace(ch)) continue;
+
+        // IDENTIFIER
+        if (isalpha(ch) || ch == '_') {
+            string lexeme = "";
+            while (i < input.length() && (isalnum(input[i]) || input[i] == '_')) {
+                lexeme += input[i];
+                i++;
+            }
+            i--; // step back
+            cout << "Token: IDENTIFIER, Lexeme: " << lexeme << endl;
+        }
+
+        // NUMBER
+        else if (isdigit(ch)) {
+            string lexeme = "";
+            while (i < input.length() && isdigit(input[i])) {
+                lexeme += input[i];
+                i++;
+            }
+            i--;
+            cout << "Token: NUMBER, Lexeme: " << lexeme << endl;
+        }
+
+        // SYMBOL or OPERATOR
+        else if (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '=' ||
+                 ch == '(' || ch == ')' || ch == ';') {
+            cout << "Token: SYMBOL/OPERATOR, Lexeme: " << ch << endl;
+        }
+
+        // UNKNOWN
+        else {
+            cout << "Token: UNKNOWN, Lexeme: " << ch << endl;
+        }
+    }
+
+    return 0;
+}
